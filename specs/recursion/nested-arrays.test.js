@@ -11,9 +11,20 @@
 
 function nestedAdd(array) {
   // write code here
+  let res = 0;
+  let i = 0;
+  while (i < array.length) {
+    if (array[i] && typeof array[i] === "number") {
+      res += array[i];
+    } else if (array[i]) {
+      res += nestedAdd(array[i]);
+    }
+    i++;
+  }
+  return res;
 }
 
-test.skip("nested arrays addition", () => {
+test("nested arrays addition", () => {
   expect(nestedAdd([1, 2, 3])).toEqual(6);
   expect(nestedAdd([1, [2], 3])).toEqual(6);
   expect(nestedAdd([[[[[[[[[5]]]]]]]]])).toEqual(5);
