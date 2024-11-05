@@ -30,52 +30,54 @@ class LinkedList {
     this.length = 0;
   }
   push(value) {
-    const node = new Node(value);
-    this.length++;
-    if (!this.head) {
-      this.head = node;
+    const newNode = new Node(value);
+    if (this.length === 0) {
+      this.head = this.tail = newNode;
     } else {
-      this.tail.next = node;
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
-    this.tail = node;
+    this.length++;
   }
   pop() {
     return this.delete(this.length - 1);
   }
   _find(index) {
-    if (index >= this.length) return null;
-    let current = this.head;
-    for (let i = 0; i < index; i++) {
-      current = current.next;
+    const newNode = new Node();
+    newNode = this.head;
+    while (index > 0) {
+      newNode = newNode.next;
+      index--;
     }
 
-    return current;
+    return newNode;
   }
   get(index) {
-    const node = this._find(index);
-    if (!node) return void 0;
-    return node.value;
+    let w = this.head;
+    while (index > 0) {
+      w = w.next;
+      index--;
+    }
+    return w.value;
   }
   delete(index) {
     if (index === 0) {
-      const head = this.head;
-      if (head) {
-        this.head = head.next;
-      } else {
-        this.head = null;
-        this.tail = null;
-      }
+      const a = this.head.value;
+      this.head = this.head.next;
       this.length--;
-      return head.value;
+      return a;
+    }
+    const w = new Node();
+    w.next = this.head;
+    while (index > 1) {
+      w.next = w.next.next;
+      index--;
     }
 
-    const node = this._find(index - 1);
-    const excise = node.next;
-    if (!excise) return null;
-    node.next = excise.next;
-    if (!node.next) this.tail = node.next;
+    const a = w.next.next.value;
+    w.next.next = w.next.next.next;
     this.length--;
-    return excise.value;
+    return a;
   }
 }
 
